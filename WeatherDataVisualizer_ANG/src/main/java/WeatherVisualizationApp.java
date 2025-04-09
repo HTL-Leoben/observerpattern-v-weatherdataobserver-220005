@@ -8,10 +8,13 @@ public class WeatherVisualizationApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Visualizer erstellen
-        WeatherVisualizer visualizer = new WeatherVisualizer();
+        WeatherDataObserver visualizer = new WeatherVisualizer();
 
         // Simulator mit Visualizer verbinden
-        WeatherDataSimulator simulator = new WeatherDataSimulator(visualizer, LocalDate.of(2025, 6,1), 60);
+        WeatherDataSimulator simulator = new WeatherDataSimulator(LocalDate.of(2025, 6,1), 60);
+
+        // Visualizer zu simulator hinzugefügt
+        simulator.registerObserver(visualizer);
 
         // Szene erstellen
         Scene scene = new Scene(visualizer.getRoot(), 800, 600);

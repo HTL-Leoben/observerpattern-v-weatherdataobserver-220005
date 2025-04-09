@@ -3,6 +3,8 @@ import javafx.animation.AnimationTimer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class WeatherDataSimulator {
@@ -13,6 +15,8 @@ public class WeatherDataSimulator {
     private int intervalMinutes;
     private LocalDateTime lastTimestamp;
     private Season currentSeason;
+
+    List<WeatherDataObserver> observerList = new LinkedList<>();
 
     // Enum für Jahreszeiten bleibt unverändert
     public enum Season {
@@ -42,9 +46,27 @@ public class WeatherDataSimulator {
         }
     }
 
+    // RRN Methoden hinzugefügt
+
+    public void registerObserver(WeatherDataObserver ob){
+            observerList.add(ob);
+    }
+
+    public void removeObserver(WeatherDataObserver ob){
+            observerList.remove(ob);
+    }
+
+    public void notifyObserver(WeatherData currentWeather){
+        for(WeatherDataObserver o: observerList){
+            o.updateWeatherVisualization(currentWeather);
+        }
+    }
+
+
+
     // Konstruktor bleibt unverändert
-    public WeatherDataSimulator(WeatherVisualizer visualizer, LocalDate startDate, int intervalMinutes) {
-        this.visualizer = visualizer;
+    public WeatherDataSimulator( LocalDate startDate, int intervalMinutes) {
+
         this.random = new Random();
         this.intervalMinutes = intervalMinutes;
         this.lastTimestamp = LocalDateTime.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),0,0);
@@ -131,7 +153,8 @@ public class WeatherDataSimulator {
             public void handle(long now) {
                 if (now - lastUpdate >= 2_000_000_000L) {
                     WeatherData currentWeather = generateRealisticWeatherData();
-                    visualizer.updateWeatherVisualization(currentWeather);
+                   visualizer.updateWeatherVisualization(currentWeather);
+                   notifyObserver(currentWeather);
                     lastUpdate = now;
                 }
             }
