@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class WeatherDataSimulator {
 
-    private WeatherVisualizer visualizer;
+   // private WeatherVisualizer visualizer;  Visualizer ausgeblendet, weil immer null, fehler meldungen, programmcrash etc.
     private Random random;
     private double lastTemperature;
     private int intervalMinutes;
@@ -153,7 +153,7 @@ public class WeatherDataSimulator {
             public void handle(long now) {
                 if (now - lastUpdate >= 2_000_000_000L) {
                     WeatherData currentWeather = generateRealisticWeatherData();
-                   visualizer.updateWeatherVisualization(currentWeather);
+                //   visualizer.updateWeatherVisualization(currentWeather);
                    notifyObserver(currentWeather);
                     lastUpdate = now;
                 }

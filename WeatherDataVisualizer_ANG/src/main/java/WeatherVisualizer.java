@@ -104,6 +104,7 @@ public class WeatherVisualizer implements WeatherDataObserver {
         });
     }
 
+    // Methode ins Interface Implementiert
     public VBox getRoot() {
         return root;
     }
