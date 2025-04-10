@@ -16,7 +16,7 @@ public class WeatherDataSimulator {
     private LocalDateTime lastTimestamp;
     private Season currentSeason;
 
-    List<WeatherDataObserver> observerList = new LinkedList<>();
+    List<WeatherDataObserver> observerList = new LinkedList<>();     // Liste fürs hinzufügen der Observer erstellt
 
     // Enum für Jahreszeiten bleibt unverändert
     public enum Season {
